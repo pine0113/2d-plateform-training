@@ -30,7 +30,7 @@ public class PlayerController : MonoBehaviour
         Jump();
         CheckGrounded();
         SwitchAnimation();
-        Attack();
+        // Attack();
     }
 
 
@@ -128,16 +128,16 @@ public class PlayerController : MonoBehaviour
 
     void Attack()
     {
-         if(Input.GetButtonDown("Fire1"))
-         {
-             myAnim.SetTrigger("Attack");
-             if(  myAnim.GetBool("DoubleJump"))
-             {
-                myAnim.SetBool("DoubleJump",false);
-                myAnim.SetBool("JumpDown",true);
-             }
+        //  if(Input.GetButtonDown("Fire1"))
+        //  {
+        //      myAnim.SetTrigger("Attack");
+        //      if(  myAnim.GetBool("DoubleJump"))
+        //      {
+        //         myAnim.SetBool("DoubleJump",false);
+        //         myAnim.SetBool("JumpDown",true);
+        //      }
            
-         }
+        //  }
 
     }
 }

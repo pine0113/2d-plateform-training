@@ -613,10 +613,10 @@ TextureImporter:
         serializedVersion: 2
         x: 0
         y: 160
-        width: 16
+        width: 32
         height: 16
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      alignment: 9
+      pivot: {x: 0.25, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -632,12 +632,12 @@ TextureImporter:
       name: herochar_sword_attack_1
       rect:
         serializedVersion: 2
-        x: 32
+        x: 31
         y: 160
-        width: 16
+        width: 32
         height: 16
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      alignment: 9
+      pivot: {x: 0.25, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -655,10 +655,10 @@ TextureImporter:
         serializedVersion: 2
         x: 64
         y: 160
-        width: 16
+        width: 32
         height: 16
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      alignment: 9
+      pivot: {x: 0.25, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -674,7 +674,7 @@ TextureImporter:
       name: herochar_sword_attack_3
       rect:
         serializedVersion: 2
-        x: 96
+        x: 95
         y: 160
         width: 16
         height: 16
