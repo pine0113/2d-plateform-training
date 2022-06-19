@@ -30,6 +30,7 @@ public class PlayerController : MonoBehaviour
         Jump();
         CheckGrounded();
         SwitchAnimation();
+        Attack();
     }
 
 
@@ -57,7 +58,9 @@ public class PlayerController : MonoBehaviour
         Vector2 PlayerVel = new Vector2(moveDir * runSpeed,myRigidbody.velocity.y);
         myRigidbody.velocity = PlayerVel;
         bool playerHasXSpeed = Mathf.Abs(myRigidbody.velocity.x) > Mathf.Epsilon;
-        myAnim.SetBool("Run",playerHasXSpeed);
+        if(isGround){
+            myAnim.SetBool("Run",playerHasXSpeed);
+        }
     }
 
     void CheckGrounded(){
@@ -99,24 +102,43 @@ public class PlayerController : MonoBehaviour
     {
         if(Input.GetButtonDown("Jump"))
         {
+            myAnim.SetBool("Run",false);
             if(isGround){
                 myAnim.SetBool("JumpUp",true);
+              
                 Vector2 jumpVel = new Vector2(0.0f, jumpSpeed);
                 myRigidbody.velocity = Vector2.up * jumpVel;
                 canDoubleJump = true;
             }
             else
             {
+                
                 if(canDoubleJump)
                 {
                     myAnim.SetBool("JumpUp",false);
                     myAnim.SetBool("DoubleJump",true);
+                   
                     Vector2 doubleJumpVel = new Vector2(0.0f, doubleJumpSpeed);
                     myRigidbody.velocity = Vector2.up * doubleJumpVel;
                     canDoubleJump = false;
                 }
             }
         }
+    }
+
+    void Attack()
+    {
+         if(Input.GetButtonDown("Fire1"))
+         {
+             myAnim.SetTrigger("Attack");
+             if(  myAnim.GetBool("DoubleJump"))
+             {
+                myAnim.SetBool("DoubleJump",false);
+                myAnim.SetBool("JumpDown",true);
+             }
+           
+         }
+
     }
 }
 
