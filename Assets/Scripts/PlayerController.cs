@@ -6,12 +6,13 @@ public class PlayerController : MonoBehaviour
 {
     public float runSpeed;
     public float jumpSpeed;
+    public float doubleJumpSpeed;
     private Rigidbody2D myRigidbody;
     private Animator myAnim;
     private BoxCollider2D myFeet;
 
     private bool isGround;
-
+    private bool canDoubleJump;
 
     // Start is called before the first frame update
     void Start()
@@ -76,9 +77,11 @@ public class PlayerController : MonoBehaviour
                 myAnim.SetBool("JumpUp",false);
                 myAnim.SetBool("JumpDown",true);
             }
-            
+    
         }else if (isGround)
         {
+            myAnim.SetBool("DoubleJump",false);
+            myAnim.SetBool("JumpUp",false);
             myAnim.SetBool("JumpDown",false);
             if( Mathf.Abs(myRigidbody.velocity.x) > Mathf.Epsilon)
             {
@@ -96,9 +99,23 @@ public class PlayerController : MonoBehaviour
     {
         if(Input.GetButtonDown("Jump"))
         {
-             myAnim.SetBool("JumpUp",true);
-            Vector2 jumpVel = new Vector2(0.0f, jumpSpeed);
-            myRigidbody.velocity = Vector2.up * jumpVel;
+            if(isGround){
+                myAnim.SetBool("JumpUp",true);
+                Vector2 jumpVel = new Vector2(0.0f, jumpSpeed);
+                myRigidbody.velocity = Vector2.up * jumpVel;
+                canDoubleJump = true;
+            }
+            else
+            {
+                if(canDoubleJump)
+                {
+                    myAnim.SetBool("JumpUp",false);
+                    myAnim.SetBool("DoubleJump",true);
+                    Vector2 doubleJumpVel = new Vector2(0.0f, doubleJumpSpeed);
+                    myRigidbody.velocity = Vector2.up * doubleJumpVel;
+                    canDoubleJump = false;
+                }
+            }
         }
     }
 }
