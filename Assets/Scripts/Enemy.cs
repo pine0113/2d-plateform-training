@@ -7,10 +7,17 @@ public class  Enemy : MonoBehaviour
 
     public int hp;
     public int damage;
+    public float flashTime;
+    public GameObject bloodEffect;
+
+    private SpriteRenderer sr;
+    private Color originColor;
+
     // Start is called before the first frame update
     public void Start()
     {
-        
+        sr  = GetComponent<SpriteRenderer>();
+        originColor = sr.color;
     }
 
     // Update is called once per frame
@@ -29,8 +36,22 @@ public class  Enemy : MonoBehaviour
 
     public  void TakeDamege(int damage)
     {
+        Instantiate(bloodEffect,transform.position,Quaternion.identity);
         hp -= damage;
+        FlashColor(flashTime);
+        
 
     }
+    void FlashColor(float time)
+    {
+        sr.color=Color.red;
+        Invoke("ResetColor",time);
+    }
+
+    void ResetColor()
+    {
+        sr.color = originColor;
+    }
+
 
 }
