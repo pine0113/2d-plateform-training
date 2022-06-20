@@ -39,7 +39,7 @@ public class  Enemy : MonoBehaviour
         Instantiate(bloodEffect,transform.position,Quaternion.identity);
         hp -= damage;
         FlashColor(flashTime);
-        
+        GameController.camShake.Shake();
 
     }
     void FlashColor(float time)
