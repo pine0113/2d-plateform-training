@@ -49,4 +49,15 @@ public class PlayerAttack : MonoBehaviour
         yield return new WaitForSeconds(time);
          coll2d.enabled=false;
     }
+
+    void OnTriggerEnter2D(Collider2D other)
+    {
+        if(other.gameObject.CompareTag("Enemy"))
+        {
+            other.GetComponent<Enemy>().TakeDamege(damage);
+        }
+
+    }
+
+
 }
