@@ -12,12 +12,14 @@ public class PlayerHealth : MonoBehaviour
     private Renderer myRenderer;
     private Animator myAnim;
     private HPHud hphud;
+    private ScreenFlash screenFlash;
     // Start is called before the first frame update
     void Start()
     {
         myRenderer = GetComponent<Renderer>();
         myAnim = GetComponent<Animator>();
         hphud = GameObject.Find("HPHud").GetComponent<HPHud>();
+        screenFlash = GetComponent<ScreenFlash>();
     }
 
     // Update is called once per frame
@@ -32,10 +34,13 @@ public class PlayerHealth : MonoBehaviour
         hp-=damage;
         if(hp<=0)
         {
+               GameController.isGameAlive = false;
                myAnim.SetTrigger("Death");
                Invoke("KillPlayer",dieTime);
+
         }
         BlinkPlayer(blinks,blinkTime);
+        screenFlash.FlashScreen();
     }
 
     void KillPlayer()
