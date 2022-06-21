@@ -9,10 +9,12 @@ public class PlayerHealth : MonoBehaviour
     public int blinks;
     public float blinkTime;
     public float dieTime;
+    public float hitBoxCdTime;
     private Renderer myRenderer;
     private Animator myAnim;
     private HPHud hphud;
     private ScreenFlash screenFlash;
+    private PolygonCollider2D myPoly;
     // Start is called before the first frame update
     void Start()
     {
@@ -20,6 +22,7 @@ public class PlayerHealth : MonoBehaviour
         myAnim = GetComponent<Animator>();
         hphud = GameObject.Find("HPHud").GetComponent<HPHud>();
         screenFlash = GetComponent<ScreenFlash>();
+        myPoly = GetComponent<PolygonCollider2D>();
     }
 
     // Update is called once per frame
@@ -41,6 +44,15 @@ public class PlayerHealth : MonoBehaviour
         }
         BlinkPlayer(blinks,blinkTime);
         screenFlash.FlashScreen();
+        myPoly.enabled=false;
+        StartCoroutine(ShowPlayerHitBox());
+    }
+
+
+    IEnumerator ShowPlayerHitBox()
+    {
+        yield return new WaitForSeconds(hitBoxCdTime);
+        myPoly.enabled=true;
     }
 
     void KillPlayer()
