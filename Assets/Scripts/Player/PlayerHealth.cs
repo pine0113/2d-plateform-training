@@ -7,12 +7,14 @@ public class PlayerHealth : MonoBehaviour
     public int hp;
     public int blinks;
     public float blinkTime;
+    public float dieTime;
     private Renderer myRenderer;
+    private Animator myAnim;
     // Start is called before the first frame update
     void Start()
     {
         myRenderer = GetComponent<Renderer>();
-        
+        myAnim = GetComponent<Animator>();
     }
 
     // Update is called once per frame
@@ -26,9 +28,15 @@ public class PlayerHealth : MonoBehaviour
         hp-=damage;
         if(hp<=0)
         {
-            
+               myAnim.SetTrigger("Death");
+               Invoke("KillPlayer",dieTime);
         }
         BlinkPlayer(blinks,blinkTime);
+    }
+
+    void KillPlayer()
+    {
+        Destroy(gameObject);
     }
     void BlinkPlayer(int numBlinks, float seconds)
     {
