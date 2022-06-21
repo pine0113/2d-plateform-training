@@ -134,13 +134,13 @@ PrefabInstance:
       propertyPath: m_Name
       value: Blood Effect
       objectReference: {fileID: 0}
-    - target: {fileID: 278574475057853980, guid: 77d4e157f812c43789e6fbba51574075, type: 3}
-      propertyPath: m_Layer
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 278574475057853981, guid: 77d4e157f812c43789e6fbba51574075, type: 3}
       propertyPath: m_SortingLayer
       value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 278574475057853981, guid: 77d4e157f812c43789e6fbba51574075, type: 3}
+      propertyPath: m_SortingOrder
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 278574475057853981, guid: 77d4e157f812c43789e6fbba51574075, type: 3}
       propertyPath: m_SortingLayerID
