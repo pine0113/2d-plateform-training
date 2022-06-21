@@ -4,23 +4,27 @@ using UnityEngine;
 
 public class PlayerHealth : MonoBehaviour
 {
+    public int max_hp;
     public int hp;
     public int blinks;
     public float blinkTime;
     public float dieTime;
     private Renderer myRenderer;
     private Animator myAnim;
+    private HPHud hphud;
     // Start is called before the first frame update
     void Start()
     {
         myRenderer = GetComponent<Renderer>();
         myAnim = GetComponent<Animator>();
+        hphud = GameObject.Find("HPHud").GetComponent<HPHud>();
     }
 
     // Update is called once per frame
     void Update()
-    {
-        
+    {   
+        hphud.hp_max = max_hp;
+        hphud.hp_current = hp;
     }
 
     public void DamagePlayer(int damage)
