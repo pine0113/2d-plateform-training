@@ -128,7 +128,7 @@ TextureImporter:
       name: herochar_death_1
       rect:
         serializedVersion: 2
-        x: 17
+        x: 16
         y: 224
         width: 16
         height: 16
@@ -212,7 +212,7 @@ TextureImporter:
       name: herochar_death_5
       rect:
         serializedVersion: 2
-        x: 81
+        x: 80
         y: 224
         width: 16
         height: 16
@@ -632,7 +632,7 @@ TextureImporter:
       name: herochar_sword_attack_1
       rect:
         serializedVersion: 2
-        x: 31
+        x: 32
         y: 160
         width: 32
         height: 16
@@ -674,7 +674,7 @@ TextureImporter:
       name: herochar_sword_attack_3
       rect:
         serializedVersion: 2
-        x: 95
+        x: 96
         y: 160
         width: 16
         height: 16
@@ -1405,6 +1405,48 @@ TextureImporter:
       indices: 
       edges: []
       weights: []
+    - serializedVersion: 2
+      name: herochar_climbLadder_0
+      rect:
+        serializedVersion: 2
+        x: 80
+        y: 128
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e2ca59447a08141f795fc2d5fc9cd535
+      internalID: -932847635
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: herochar_climbLadder_1
+      rect:
+        serializedVersion: 2
+        x: 96
+        y: 128
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 6195766412a144195b47fd322aa76cdd
+      internalID: 558253548
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     outline: []
     physicsShape: []
     bones: []
@@ -1416,7 +1458,7 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      herochar_push_forward_1: -1859673560
+      herochar_run_5: -30573269
       herochar_push_forward_2: 802938525
       herochar_jimp_up_0: 1714392847
       herochar_jimp_double_2: -159388361
@@ -1437,6 +1479,7 @@ TextureImporter:
       herochar_sword_attack_2: -370454933
       herochar_run_1: -8049200
       herochar_death_0: 1018173866
+      herochar_climbLadder_1: 558253548
       herochar_death_1: 185047004
       herochar_before_or_after_jump_1: 1311207654
       herochar_jimp_up_1: 1034854961
@@ -1477,7 +1520,8 @@ TextureImporter:
       herochar_push_forward_3: -2145312727
       herochar_hit_0: -1907075351
       herochar_run_0: 1645349706
-      herochar_run_5: -30573269
+      herochar_climbLadder_0: -932847635
+      herochar_push_forward_1: -1859673560
   spritePackingTag: 
   pSDRemoveMatte: 0
   pSDShowRemoveMatteOption: 0

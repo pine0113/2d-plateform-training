@@ -19,10 +19,10 @@ TagManager:
   - Player
   - Enemy
   - Spike
-  - 
-  - 
-  - 
-  - 
+  - MovingPlatform
+  - OneWayPlatform
+  - Ladder
+  - Item
   - 
   - 
   - 
@@ -51,6 +51,9 @@ TagManager:
     locked: 0
   - name: Enemy
     uniqueID: 1236976205
+    locked: 0
+  - name: Item
+    uniqueID: 3543484537
     locked: 0
   - name: Player
     uniqueID: 770691291
