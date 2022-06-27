@@ -97,7 +97,7 @@ public class PlayerController : MonoBehaviour
         myFeet.IsTouchingLayers(LayerMask.GetMask("OneWayPlatform"));
 
         isOnOneWayPlatform = myFeet.IsTouchingLayers(LayerMask.GetMask("OneWayPlatform"));
-        Debug.Log(isGround);
+        // Debug.Log(isGround);
     }
 
     void CheckLadder()
