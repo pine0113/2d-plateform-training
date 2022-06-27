@@ -1414,7 +1414,7 @@ TextureImporter:
         width: 16
         height: 16
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -1435,7 +1435,7 @@ TextureImporter:
         width: 16
         height: 16
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -1443,6 +1443,27 @@ TextureImporter:
       bones: []
       spriteID: 6195766412a144195b47fd322aa76cdd
       internalID: 558253548
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: herochar_climb
+      rect:
+        serializedVersion: 2
+        x: 80
+        y: 96
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 2760af52b9d5142928745919bb425af0
+      internalID: -548146264
       vertices: []
       indices: 
       edges: []
@@ -1458,7 +1479,7 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      herochar_run_5: -30573269
+      herochar_push_forward_1: -1859673560
       herochar_push_forward_2: 802938525
       herochar_jimp_up_0: 1714392847
       herochar_jimp_double_2: -159388361
@@ -1515,13 +1536,14 @@ TextureImporter:
       herochar_hit_1: -994865935
       herochar_after_jump_dust_0: 846352435
       herochar_idle_1: -1549775480
+      herochar_climb: -548146264
       herochar_push_forward_0: -201045882
       herochar_death_7: -1066399302
       herochar_push_forward_3: -2145312727
       herochar_hit_0: -1907075351
       herochar_run_0: 1645349706
       herochar_climbLadder_0: -932847635
-      herochar_push_forward_1: -1859673560
+      herochar_run_5: -30573269
   spritePackingTag: 
   pSDRemoveMatte: 0
   pSDShowRemoveMatteOption: 0

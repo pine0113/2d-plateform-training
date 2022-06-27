@@ -1876,7 +1876,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Dungeon Tile Set_84
+      name: Dungeon Tile Sign-Right
       rect:
         serializedVersion: 2
         x: 112
@@ -1897,10 +1897,10 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Dungeon Tile Set_85
+      name: Dungeon Tile Sign-Left
       rect:
         serializedVersion: 2
-        x: 128
+        x: 127
         y: 112
         width: 16
         height: 16
@@ -2920,7 +2920,7 @@ TextureImporter:
     secondaryTextures: []
     nameFileIdTable:
       Dungeon Tile Set_115: 1737047432
-      Dungeon Tile Set_59: 2136820209
+      Dungeon Tile Set_111: -2002840905
       Dungeon Tile Set_32: 538093692
       Dungeon Tile Set_122: 1512838185
       Dungeon Tile Set_105: -1494266427
@@ -3005,15 +3005,15 @@ TextureImporter:
       Dungeon Tile Set_65: -1585790195
       Dungeon Tile Set_48: 371215634
       Dungeon Tile ladder-top: 863475286
-      Dungeon Tile Set_84: 1189040579
+      Dungeon Tile Set_118: 689770883
       Dungeon Tile Set_69: 1201689042
       Dungeon Tile Set_113: 1266806333
-      Dungeon Tile Set_118: 689770883
       Dungeon Tile Set_61: -2099448104
       Dungeon Tile Set_77: -922560399
       Dungeon Tile Set_78: 1271654273
       Dungeon Tile Set_123: -719287862
       Dungeon Tile Set_64: 93146618
+      Dungeon Tile Sign-Right: 1189040579
       Dungeon Tile Set_103: -799680659
       Dungeon Tile ladder-buttom: -631963562
       Dungeon Tile Set_44: -278562966
@@ -3044,14 +3044,14 @@ TextureImporter:
       Dungeon Tile Set_9: 2818444
       Dungeon Tile Set_55: 1308466074
       Dungeon Tile Set_26: 1449346984
+      Dungeon Tile Sign-Left: 1200830194
       Dungeon Tile Set_88: -946566612
-      Dungeon Tile Set_85: 1200830194
       Dungeon Tile Set_19: 1571973212
       Dungeon Tile Set_109: 1662328578
       Dungeon Tile Set_128: -405396747
       Dungeon Tile ladder-middle: 1107414417
       Dungeon Tile Set_40: -1369086839
-      Dungeon Tile Set_111: -2002840905
+      Dungeon Tile Set_59: 2136820209
   spritePackingTag: 
   pSDRemoveMatte: 0
   pSDShowRemoveMatteOption: 0
