@@ -219,11 +219,19 @@ public class PlayerController : MonoBehaviour
             myAnim.SetBool("Run",false);
             myAnim.SetBool("Climb",false);
             if(isGround){
-                myAnim.SetBool("JumpUp",true);
-              
-                Vector2 jumpVel = new Vector2(0.0f, jumpSpeed);
-                myPhysicalBody.velocity = Vector2.up * jumpVel;
-                canDoubleJump = true;
+                float moveY = Input.GetAxis("Vertical");
+                if( isOnOneWayPlatform && moveY < -0.1f)
+                {
+                    gameObject.layer = LayerMask.NameToLayer("OneWayPlatform");
+                    canDoubleJump = true;
+                    Invoke("RestorePlayerLayer", restoreTime);
+                }else{
+                    myAnim.SetBool("JumpUp",true);
+                
+                    Vector2 jumpVel = new Vector2(0.0f, jumpSpeed);
+                    myPhysicalBody.velocity = Vector2.up * jumpVel;
+                    canDoubleJump = true;
+                }
             }
             else
             {
@@ -238,6 +246,8 @@ public class PlayerController : MonoBehaviour
                     canDoubleJump = false;
                 }
             }
+
+          
 
             if(isClimpingLadder)
             {
@@ -400,11 +410,14 @@ public class PlayerController : MonoBehaviour
         // }
 
         float moveY = Input.GetAxis("Vertical");
-        if( isOnOneWayPlatform && moveY < -0.1f)
+        if(Input.GetButtonDown("Jump"))
         {
-            gameObject.layer = LayerMask.NameToLayer("OneWayPlatform");
-            canDoubleJump = true;
-            Invoke("RestorePlayerLayer", restoreTime);
+            if( isOnOneWayPlatform && moveY < -0.1f)
+            {
+                gameObject.layer = LayerMask.NameToLayer("OneWayPlatform");
+                canDoubleJump = true;
+                Invoke("RestorePlayerLayer", restoreTime);
+            }
         }
 
 
