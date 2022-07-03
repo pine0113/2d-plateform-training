@@ -6,13 +6,15 @@ public class PlayerController : MonoBehaviour
 {
     public float runSpeed;
     public float jumpSpeed;
+    public float wallJumpPower=6f;
     public float doubleJumpSpeed;
     public float climbLadderSpeed;
-    private Rigidbody2D myRigidbody;
-    private Animator myAnim;
 
-    private PolygonCollider2D myBody;
+    private Animator myAnim;
+    private Rigidbody2D myPhysicalBody;
+    private PolygonCollider2D myCoreBody;
     private BoxCollider2D myFeet;
+    private Transform myTransform;
 
     public float restoreTime;
     private bool isOnOneWayPlatform;
@@ -23,17 +25,29 @@ public class PlayerController : MonoBehaviour
     private bool isClimpingLadder;
     private bool isJumpingUp;
     private bool isJumpingDown;    
-    private bool isDoubleJumping;    
+    private bool isDoubleJumping;
+    private bool isClimb;    
     private float playerGravity;
+    private int direction;
+    private float ClimbWallRadius=0.3f;
+    private float slideSpeed = 0.7f;
+
+    public bool isEquipSword=false;
+
+    private bool isClimbWallCheck;
+    public Transform ClimbWallCheckPoint;
+    public LayerMask ClimbWallLayerMask;
+    public bool disableXmove=false;
 
     // Start is called before the first frame update
     void Start()
     {
-        myRigidbody = GetComponent<Rigidbody2D>();
+        myPhysicalBody = GetComponent<Rigidbody2D>();
         myAnim = GetComponent<Animator>();
         myFeet = GetComponent<BoxCollider2D>();
-        myBody = GetComponent<PolygonCollider2D>();
-        playerGravity = myRigidbody.gravityScale;
+        myCoreBody = GetComponent<PolygonCollider2D>();
+        myTransform = GetComponent<Transform>();
+        playerGravity = myPhysicalBody.gravityScale;
     }
 
     // Update is called once per frame
@@ -43,6 +57,8 @@ public class PlayerController : MonoBehaviour
             CheckAirStatus();
             flip();
             Run();
+            Climb();
+            ClimbWallCheck();
             Jump();
             ClimbLadder();
             ClimbingLadder();
@@ -50,24 +66,66 @@ public class PlayerController : MonoBehaviour
             CheckLadder();
             SwitchAnimation();
             OneWayPlatformCheck();
+            Attack();
         }
-        // Attack();
+        
+    }
+    private void LateUpdate() {
+
+        //WallJumpFix();
+        
     }
 
+    
+    void ClimbWallCheck()
+    {
+         if(!isGround)
+         {
+            ClimbWallRadius = 0.3f;
+            isClimbWallCheck = Physics2D.OverlapCircle(ClimbWallCheckPoint.position,ClimbWallRadius,ClimbWallLayerMask);
+            if(!isClimbWallCheck)
+            {
+                isClimb = false;
+            }
 
+            if(isClimbWallCheck )
+            {
+                if((direction==1 &&  Input.GetAxis("Horizontal") > 0.1f ) || (direction==-1 &&  Input.GetAxis("Horizontal") < -0.1f ))
+                {               
+                
+                    isClimb = true;
+                    HandleWallSliding();                    
+        
+                }else
+                {
+                    isClimb = false;
+                }
+            }
+            
+        }
+    }
 
+    void HandleWallSliding()
+    {
+        myPhysicalBody.velocity = new Vector2(myPhysicalBody.velocity.x,-slideSpeed);
+        isClimb = true;
+      
+    }
 
     void flip()
     {
-        bool playerHasXSpeed = Mathf.Abs(myRigidbody.velocity.x) > Mathf.Epsilon;
+        //direction=1;
+        bool playerHasXSpeed = Mathf.Abs(myPhysicalBody.velocity.x) > Mathf.Epsilon;
         if(playerHasXSpeed)
         {  
-            if(myRigidbody.velocity.x > 0.1f)
+            if(myPhysicalBody.velocity.x > 0.1f)
             {
+                direction=1;
                 transform.localRotation = Quaternion.Euler(0,0,0);
             }
-            else if(myRigidbody.velocity.x < -0.1f)
+            else if(myPhysicalBody.velocity.x < -0.1f)
             {
+                direction=-1;
                 transform.localRotation = Quaternion.Euler(0,180,0);
             }
         }
@@ -75,21 +133,27 @@ public class PlayerController : MonoBehaviour
 
     void Run()
     {
-        float moveDir = Input.GetAxis("Horizontal");
+        if(!disableXmove){
+            float moveDir = Input.GetAxis("Horizontal");
 
-        Vector2 PlayerVel = new Vector2(moveDir * runSpeed,myRigidbody.velocity.y);
-        myRigidbody.velocity = PlayerVel;
-        bool playerHasXSpeed = Mathf.Abs(myRigidbody.velocity.x) > Mathf.Epsilon;
+            Vector2 PlayerVel = new Vector2(moveDir * runSpeed,myPhysicalBody.velocity.y);
+            myPhysicalBody.velocity = PlayerVel;
+            bool playerHasXSpeed = Mathf.Abs(myPhysicalBody.velocity.x) > Mathf.Epsilon;
 
-        if(isGround){
-            myAnim.SetBool("Run",playerHasXSpeed);
-        }else
-        {
-            myAnim.SetBool("JumpDown",playerHasXSpeed);
+            if(isGround){
+                myAnim.SetBool("Run",playerHasXSpeed);
+            }else
+            {
+                myAnim.SetBool("JumpDown",playerHasXSpeed);
+            }
         }
-        
     }
 
+    IEnumerator delayEnableXmove()
+    {
+        yield return new WaitForSeconds(0.05f);
+        disableXmove = false;
+    }
     void CheckGrounded(){
 
         isGround = myFeet.IsTouchingLayers(LayerMask.GetMask("Ground")) || 
@@ -102,7 +166,7 @@ public class PlayerController : MonoBehaviour
 
     void CheckLadder()
     {
-        isOnLadder =  myBody.IsTouchingLayers(LayerMask.GetMask("Ladder"));
+        isOnLadder =  myCoreBody.IsTouchingLayers(LayerMask.GetMask("Ladder"));
     }
     void SwitchAnimation()
     {
@@ -111,7 +175,7 @@ public class PlayerController : MonoBehaviour
 
         if(myAnim.GetBool("JumpUp"))
         {
-            if( myRigidbody.velocity.y < 0.0f )
+            if( myPhysicalBody.velocity.y < 0.0f )
             {
                 myAnim.SetBool("JumpUp",false);
                 myAnim.SetBool("JumpDown",true);
@@ -122,7 +186,7 @@ public class PlayerController : MonoBehaviour
             myAnim.SetBool("DoubleJump",false);
             myAnim.SetBool("JumpUp",false);
             myAnim.SetBool("JumpDown",false);
-            if( Mathf.Abs(myRigidbody.velocity.x) > Mathf.Epsilon)
+            if( Mathf.Abs(myPhysicalBody.velocity.x) > Mathf.Epsilon)
             {
                 myAnim.SetBool("Run",true);
             }else
@@ -132,18 +196,33 @@ public class PlayerController : MonoBehaviour
             
         }
         
+        if(isClimb)
+        {
+            myAnim.SetBool("JumpUp",false); 
+            myAnim.SetBool("JumpDown",false);      
+            myAnim.SetBool("DoubleJump",false);   
+            myAnim.SetBool("Run",false);      
+            myAnim.SetBool("Climb",true);
+        }else
+        {
+            myAnim.SetBool("Climb",false);      
+        }
+        
     }
+
+
 
     void Jump()
     {
         if(Input.GetButtonDown("Jump"))
         {
             myAnim.SetBool("Run",false);
+            myAnim.SetBool("Climb",false);
             if(isGround){
                 myAnim.SetBool("JumpUp",true);
               
                 Vector2 jumpVel = new Vector2(0.0f, jumpSpeed);
-                myRigidbody.velocity = Vector2.up * jumpVel;
+                myPhysicalBody.velocity = Vector2.up * jumpVel;
                 canDoubleJump = true;
             }
             else
@@ -155,16 +234,61 @@ public class PlayerController : MonoBehaviour
                     myAnim.SetBool("DoubleJump",true);
                    
                     Vector2 doubleJumpVel = new Vector2(0.0f, doubleJumpSpeed);
-                    myRigidbody.velocity = Vector2.up * doubleJumpVel;
+                    myPhysicalBody.velocity = Vector2.up * doubleJumpVel;
                     canDoubleJump = false;
                 }
             }
+
+            if(isClimpingLadder)
+            {
+                myAnim.SetBool("ClimbLadder",false);
+                myAnim.SetBool("JumpUp",true);
+                isClimpingLadder = false;
+                Vector2 jumpVel = new Vector2( - direction *  2f, jumpSpeed);
+                myPhysicalBody.velocity = Vector2.up * jumpVel;
+                canDoubleJump = true;
+            }
+
+
+            if(isClimbWallCheck )
+            {
+                myAnim.SetBool("JumpUp",true);
+                myAnim.SetBool("JumpDown",false);
+                myAnim.SetBool("DoubleJump",false);
+                isClimb =false;
+                if((direction==1 &&  Input.GetAxis("Horizontal") > 0.1f ) || (direction==-1 &&  Input.GetAxis("Horizontal") < -0.1f ))
+                {                         
+                    direction = -direction;
+                    //myTransform.position = new Vector2( myTransform.position.x + direction*0.3f, myTransform.position.y+0.3f);
+                    myPhysicalBody.velocity= (new Vector2(direction * runSpeed , wallJumpPower));
+                    Debug.Log(myPhysicalBody.velocity.x);
+                    canDoubleJump = true;
+                    disableXmove=true;
+                    StartCoroutine(delayEnableXmove());
+                }
+                     
+                
+            }
+            
+
         }
 
-        if( myRigidbody.velocity.y < 0.0f && !isOnLadder)
+        if( myPhysicalBody.velocity.y < 0.0f && !isOnLadder)
         {
             myAnim.SetBool("JumpDown",true);            
         }
+    }
+
+    void Climb()
+    {
+        if(isClimb)
+        {
+           myPhysicalBody.gravityScale=0;
+           myPhysicalBody.velocity = new Vector2(0f,0f);      
+              
+        }
+           myPhysicalBody.gravityScale=playerGravity;
+           
     }
 
     void ClimbLadder()
@@ -175,7 +299,7 @@ public class PlayerController : MonoBehaviour
             if(moveY > 0.5f || moveY < -0.5)
             {
                 myAnim.SetBool("ClimbLadder",true);
-                myRigidbody.gravityScale = 0.0f;               
+                myPhysicalBody.gravityScale = 0.0f;               
             }
             else
             {
@@ -186,7 +310,7 @@ public class PlayerController : MonoBehaviour
                 }  
                 else
                 {
-                    myRigidbody.velocity = new Vector2(myRigidbody.velocity.x, 0.0f);
+                    myPhysicalBody.velocity = new Vector2(myPhysicalBody.velocity.x, 0.0f);
                 }
                 
             }
@@ -194,7 +318,7 @@ public class PlayerController : MonoBehaviour
         }else
         {
             myAnim.SetBool("ClimbLadder",false);
-            myRigidbody.gravityScale = playerGravity;
+            myPhysicalBody.gravityScale = playerGravity;
         }
          
     }
@@ -205,12 +329,13 @@ public class PlayerController : MonoBehaviour
         {
             if(isClimpingLadder)
             {
+                myPhysicalBody.gravityScale = 0.0f;               
                 float moveY = Input.GetAxis("Vertical");
                 if(moveY > 0.5f || moveY < -0.5)
                 {
-                    myRigidbody.velocity = new Vector2(myRigidbody.velocity.x, moveY * climbLadderSpeed);
+                    myPhysicalBody.velocity = new Vector2(myPhysicalBody.velocity.x, moveY * climbLadderSpeed);
                     myAnim.SetBool("ClimbingLadder",true);
-                    myRigidbody.gravityScale = 0.0f;               
+                    
                 }
                 else
                 {
@@ -225,7 +350,7 @@ public class PlayerController : MonoBehaviour
                         myAnim.SetBool("ClimbLadder",true);
                         
                     }
-                    myRigidbody.velocity = new Vector2(myRigidbody.velocity.x, 0.0f);
+                    myPhysicalBody.velocity = new Vector2(myPhysicalBody.velocity.x, 0.0f);
                 }
 
             }
@@ -234,19 +359,24 @@ public class PlayerController : MonoBehaviour
             myAnim.SetBool("ClimbingLadder",false);
         }
     }
-
     void Attack()
     {
+        if(isEquipSword){
+            myAnim.SetBool("SwordAttack",true);
+        }else
+        {
+            myAnim.SetBool("SwordAttack",false);
+        }
+
          if(Input.GetButtonDown("Fire1"))
-         {
-             myAnim.SetTrigger("Attack");
-             if(  myAnim.GetBool("DoubleJump"))
-             {
-                myAnim.SetBool("DoubleJump",false);
-                myAnim.SetBool("JumpDown",true);
-             }
-           
-         }
+         {        
+                myAnim.SetTrigger("Attack");
+                if(  myAnim.GetBool("DoubleJump"))
+                {
+                    myAnim.SetBool("DoubleJump",false);
+                    myAnim.SetBool("JumpDown",true);
+                }
+        }         
 
     }
 
@@ -254,8 +384,11 @@ public class PlayerController : MonoBehaviour
     {
         if(other.GetType().ToString()=="UnityEngine.BoxCollider2D")
         {
-           myRigidbody.velocity *= new Vector2(0.0f, 1f) ;
+           //myRigidbody.velocity *= new Vector2(0.0f, 1f) ;
         }
+
+        
+       
         
     }
 

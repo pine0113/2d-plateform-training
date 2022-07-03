@@ -6,6 +6,7 @@ TagManager:
   tags:
   - Enemy
   - CameraShake
+  - ClimbWall
   layers:
   - Default
   - TransparentFX
@@ -14,7 +15,7 @@ TagManager:
   - Water
   - UI
   - 
-  - 
+  - ClimbWall
   - Ground
   - Player
   - Enemy
